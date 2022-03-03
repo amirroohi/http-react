@@ -1,0 +1,17 @@
+:root {
+  --bgc-comment: #e0e7ff;
+  --txt-color: #4338ca;
+}
+
+.comment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--bgc-comment);
+  width: 200px;
+  height: 200px;
+  color: var(--txt-color);
+  border-radius: 5px;
+  margin: 20px 0;
+}
