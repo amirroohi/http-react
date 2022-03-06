@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import "./newComment.css";
 
-const NewComment = ({onAddPost}) => {
+const NewComment = ({ setComments }) => {
   const [comment, setComment] = useState({
     name: "",
     email: "",
@@ -13,7 +13,30 @@ const NewComment = ({onAddPost}) => {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
 
+  // const postCommentHandler = () => {
+  //   axios
+  //     .post("http://localhost:3001/comments", { ...comment, postId: 10 })
+  //     .then((response) => axios.get("http://localhost:3001/comments"))
+  //     .then((response) => setComments(response.data))
+  //     .catch((error) => console.log(error));
+  // };
 
+  const postCommentHandler = async () => {
+    try {
+      await axios.post("http://localhost:3001/comments", {
+        ...comment,
+        postId: 10,
+      });
+      const {data}= await axios.get("http://localhost:3001/comments")
+      setComments(data)
+    } catch (error) {}
+
+    // axios
+    //   .post("http://localhost:3001/comments", { ...comment, postId: 10 })
+    //   .then((response) => axios.get("http://localhost:3001/comments"))
+    //   .then((response) => setComments(response.data))
+    //   .catch((error) => console.log(error));
+  };
 
   return (
     <div className="newComment">
@@ -29,7 +52,7 @@ const NewComment = ({onAddPost}) => {
         <label>body :</label>
         <textarea type="textarea" onChange={changeHandler} name="content" />
       </div>
-      <button onClick={() => onAddPost(comment)}>Add New Comment</button>
+      <button onClick={postCommentHandler}>Add New Comment</button>
     </div>
   );
 };

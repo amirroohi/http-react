@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./fullComment.css";
 
-const FullComment = ({ commentId,deleteHandler }) => {
+const FullComment = ({ commentId, setComments }) => {
   const [comment, setComment] = useState(null);
 
   useEffect(() => {
@@ -13,19 +13,20 @@ const FullComment = ({ commentId,deleteHandler }) => {
         .catch((error) => console.log(error));
     }
   }, [commentId]);
-
+  
+  const deleteHandler = async () => {
+    try {
+      await axios.delete(`http://localhost:3001/comments/${commentId}`);
+      const { data } = await axios.get("http://localhost:3001/comments");
+      setComments(data);
+    } catch (error) {}
+  };
+  
   let commentDetail = <p>please select a comment!</p>;
 
   if (commentId) {
     commentDetail = <p>loading...</p>;
   }
-
-  // const deleteHandler = () => {
-  //   axios
-  //     .delete(`https://jsonplaceholder.typicode.com/comments/${commentId}`)
-  //     .then((response) => console.log(response.data))
-  //     .catch((error) => console.log(error));
-  // };
 
   if (comment) {
     commentDetail = (
