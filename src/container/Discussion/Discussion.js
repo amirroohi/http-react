@@ -2,9 +2,9 @@ import Comment from "../../components/Comment/Comment";
 import FullComment from "../../components/FullComment/FullComment";
 import NewComment from "../../components/NewComment/NewComment";
 import "./discussion.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { getAllComments } from "../../services/getAllCommentService";
 
 const Discussion = () => {
   const [comments, setComments] = useState(null);
@@ -24,7 +24,9 @@ const Discussion = () => {
     // console.log(promise);
     const getComments = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3001/comments");
+        const { data } = await getAllComments().then(
+          toast.success("Database loaded !")
+        );
 
         setComments(data);
       } catch (error) {
@@ -36,7 +38,6 @@ const Discussion = () => {
   }, []);
 
   const selectHandler = (id) => {
-    // console.log(id);
     setSelectedId(id);
   };
 
@@ -57,10 +58,10 @@ const Discussion = () => {
     let renderedComments = <p>Loading...</p>;
     if (error) {
       renderedComments = <p>Database is Disconnected!</p>;
-      toast.error("Database is Disconnected !");
+      // toast.error("Database is Disconnected !");
     }
     if (comments && !error) {
-      // toast.success("Database loaded !")
+      // toast.success("Database loaded !");
       renderedComments = comments.map((comment) => (
         <Comment
           key={comment.id}
@@ -83,6 +84,7 @@ const Discussion = () => {
         <FullComment
           commentId={selectedId}
           setComments={setComments}
+          setSelectedId={setSelectedId}
         />
       </section>
       <section>

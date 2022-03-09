@@ -1,5 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
+import { addNewPost } from "../../services/addNewCommentService";
+import { getAllComments } from "../../services/getAllCommentService";
 import "./newComment.css";
 
 const NewComment = ({ setComments }) => {
@@ -23,12 +24,12 @@ const NewComment = ({ setComments }) => {
 
   const postCommentHandler = async () => {
     try {
-      await axios.post("http://localhost:3001/comments", {
+      await addNewPost({
         ...comment,
         postId: 10,
       });
-      const {data}= await axios.get("http://localhost:3001/comments")
-      setComments(data)
+      const { data } = await getAllComments();
+      setComments(data);
     } catch (error) {}
 
     // axios
