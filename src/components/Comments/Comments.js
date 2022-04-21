@@ -1,14 +1,12 @@
-import Comment from "../../components/Comment/Comment";
-import FullComment from "../../components/FullComment/FullComment";
-import NewComment from "../../components/NewComment/NewComment";
-import "./discussion.css";
+import Comment from "./Comment/Comment";
+import "./comments.css";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getAllComments } from "../../services/getAllCommentService";
+import { Link } from "react-router-dom";
 
-const Discussion = () => {
+const CommentsList = () => {
   const [comments, setComments] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -24,22 +22,20 @@ const Discussion = () => {
     // console.log(promise);
     const getComments = async () => {
       try {
-        const { data } = await getAllComments().then(
-          toast.success("Database loaded !")
-        );
+        const { data } = await getAllComments()
+          .then
+          // toast.success("Database loaded !")
+          ();
 
         setComments(data);
       } catch (error) {
+        toast.error("out of order !");
         setError(true);
       }
     };
 
     getComments();
   }, []);
-
-  const selectHandler = (id) => {
-    setSelectedId(id);
-  };
 
   // const deleteHandler = async () => {
   //   try {
@@ -63,13 +59,9 @@ const Discussion = () => {
     if (comments && !error) {
       // toast.success("Database loaded !");
       renderedComments = comments.map((comment) => (
-        <Comment
-          key={comment.id}
-          name={comment.name}
-          email={comment.email}
-          body={comment.body}
-          onClick={() => selectHandler(comment.id)}
-        />
+        <Link to={`/comment/${comment.id}`} key={comment.id}>
+          <Comment name={comment.name} email={comment.email} />
+        </Link>
       ));
     } else {
     }
@@ -77,21 +69,7 @@ const Discussion = () => {
     return renderedComments;
   };
 
-  return (
-    <main>
-      <section className="comments">{renderComments()}</section>
-      <section>
-        <FullComment
-          commentId={selectedId}
-          setComments={setComments}
-          setSelectedId={setSelectedId}
-        />
-      </section>
-      <section>
-        <NewComment setComments={setComments} />
-      </section>
-    </main>
-  );
+  return <section className="comments">{renderComments()}</section>;
 };
 
-export default Discussion;
+export default CommentsList;

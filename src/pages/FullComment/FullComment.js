@@ -4,10 +4,11 @@ import { getAllComments } from "../../services/getAllCommentService";
 import { getOneComment } from "../../services/getOneCommentService";
 import "./fullComment.css";
 
+const FullComment = ({ setComments, setSelectedId, match }) => {
+  // console.log(match.params.id);
+  const commentId = match.params.id;
 
-const FullComment = ({ commentId, setComments ,setSelectedId}) => {
   const [comment, setComment] = useState(null);
-
   useEffect(() => {
     if (commentId) {
       getOneComment(commentId)
@@ -18,7 +19,7 @@ const FullComment = ({ commentId, setComments ,setSelectedId}) => {
 
   const deleteHandler = async () => {
     try {
-      await deleteComment(commentId)
+      await deleteComment(commentId);
       const { data } = await getAllComments();
       setComments(data);
       setSelectedId(null);
