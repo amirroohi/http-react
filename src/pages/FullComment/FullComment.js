@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { deleteComment } from "../../services/deleteCommentService";
-import { getAllComments } from "../../services/getAllCommentService";
 import { getOneComment } from "../../services/getOneCommentService";
 import "./fullComment.css";
 
-const FullComment = ({ setComments, setSelectedId, match }) => {
+const FullComment = ({ match ,history}) => {
   // console.log(match.params.id);
+  console.log(history);
   const commentId = match.params.id;
 
   const [comment, setComment] = useState(null);
@@ -20,9 +20,7 @@ const FullComment = ({ setComments, setSelectedId, match }) => {
   const deleteHandler = async () => {
     try {
       await deleteComment(commentId);
-      const { data } = await getAllComments();
-      setComments(data);
-      setSelectedId(null);
+      history.push("/")
       setComment(null);
     } catch (error) {}
   };

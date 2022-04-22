@@ -10,16 +10,7 @@ const CommentsList = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    // axios
-    //   .get("https://jsonplaceholder.typicode.com/comments")
-    //   .then((response) => {
-    //     // console.log(response);
-    //     setComments(response.data.slice(0, 4));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // console.log(promise);
+
     const getComments = async () => {
       try {
         const { data } = await getAllComments()
@@ -37,18 +28,6 @@ const CommentsList = () => {
     getComments();
   }, []);
 
-  // const deleteHandler = async () => {
-  //   try {
-  //     await axios.delete(`http://localhost:3001/comments/${selectedId}`);
-  //     const {data} = await axios.get("http://localhost:3001/comments")
-  //     setComments(data)
-  //   } catch (error) {}
-
-  //   axios
-  //     .delete(`http://localhost:3001/comments/${selectedId}`)
-  //     .then((response) => console.log(response.data))
-  //     .catch((error) => console.log(error));
-  // };
 
   const renderComments = () => {
     let renderedComments = <p>Loading...</p>;

@@ -14,14 +14,6 @@ const NewComment = ({ setComments }) => {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
 
-  // const postCommentHandler = () => {
-  //   axios
-  //     .post("http://localhost:3001/comments", { ...comment, postId: 10 })
-  //     .then((response) => axios.get("http://localhost:3001/comments"))
-  //     .then((response) => setComments(response.data))
-  //     .catch((error) => console.log(error));
-  // };
-
   const postCommentHandler = async () => {
     try {
       await addNewPost({
@@ -31,12 +23,6 @@ const NewComment = ({ setComments }) => {
       const { data } = await getAllComments();
       setComments(data);
     } catch (error) {}
-
-    // axios
-    //   .post("http://localhost:3001/comments", { ...comment, postId: 10 })
-    //   .then((response) => axios.get("http://localhost:3001/comments"))
-    //   .then((response) => setComments(response.data))
-    //   .catch((error) => console.log(error));
   };
 
   return (
